@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.codepath.android.booksearch.R;
 import com.codepath.android.booksearch.adapter.BookAdapter;
@@ -33,6 +35,9 @@ public class BookListActivity extends AppCompatActivity {
 
     @BindView(R.id.toolBar)
     Toolbar mToolbar;
+
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +65,12 @@ public class BookListActivity extends AppCompatActivity {
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter
     private void fetchBooks() {
+        mProgressBar.setVisibility(View.VISIBLE);
         mBookApi.search(mSearchRequest.toQueryMay()).enqueue(new Callback<SearchResult>() {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                 if (response.body() != null) {
+                    mProgressBar.setVisibility(View.GONE);
                     handleResponse(response.body());
                 }
             }
