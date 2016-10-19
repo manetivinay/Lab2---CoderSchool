@@ -48,6 +48,8 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Book book = mBooks.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         Context mContext = viewHolder.ivCover.getContext();
+        viewHolder.tvTitle.setText(book.getTitle());
+        viewHolder.tvAuthor.setText(book.getAuthor());
         Picasso.with(mContext)
                 .load(book.getCoverUrl())
                 .placeholder(R.drawable.ic_nocover)
