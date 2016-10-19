@@ -1,5 +1,6 @@
 package com.codepath.android.booksearch.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -19,6 +20,7 @@ import android.widget.ProgressBar;
 import com.codepath.android.booksearch.R;
 import com.codepath.android.booksearch.adapter.BookAdapter;
 import com.codepath.android.booksearch.api.BookApi;
+import com.codepath.android.booksearch.model.Book;
 import com.codepath.android.booksearch.model.SearchRequest;
 import com.codepath.android.booksearch.model.SearchResult;
 import com.codepath.android.booksearch.utils.RetrofitUtils;
@@ -29,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BookListActivity extends AppCompatActivity {
+public class BookListActivity extends AppCompatActivity implements BookAdapter.ListClickListener {
     private SearchRequest mSearchRequest;
     private BookAdapter mBookAdapter;
     private BookApi mBookApi;
@@ -65,6 +67,7 @@ public class BookListActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         lvBooks.setAdapter(mBookAdapter);
         lvBooks.setLayoutManager(mLayoutManager);
+        mBookAdapter.setListClickListener(this);
     }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
@@ -134,5 +137,12 @@ public class BookListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBookItemClick(Book book) {
+        Intent toDetailBookIntent = new Intent(this, BookDetailActivity.class);
+        toDetailBookIntent.putExtra("book_detail", book);
+        startActivity(toDetailBookIntent);
     }
 }

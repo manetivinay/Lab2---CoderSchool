@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.android.booksearch.R;
@@ -19,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ListClickListener mListClickListener;
     private List<Book> mBooks;
 
     public BookAdapter() {
@@ -35,6 +37,10 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // TODO: Insert your code here
     }
 
+    public void setListClickListener(ListClickListener listClickListener) {
+        mListClickListener = listClickListener;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // TODO: Insert your code here
@@ -45,7 +51,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // TODO: Insert your code here
-        Book book = mBooks.get(position);
+        final Book book = mBooks.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
         Context mContext = viewHolder.ivCover.getContext();
         viewHolder.tvTitle.setText(book.getTitle());
@@ -54,6 +60,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .load(book.getCoverUrl())
                 .placeholder(R.drawable.ic_nocover)
                 .into(viewHolder.ivCover);
+        viewHolder.entireItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListClickListener != null)
+                    mListClickListener.onBookItemClick(book);
+            }
+        });
+
     }
 
     @Override
@@ -73,9 +87,16 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView(R.id.tvAuthor)
         TextView tvAuthor;
 
+        @BindView(R.id.entireItem)
+        RelativeLayout entireItem;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface ListClickListener {
+        void onBookItemClick(Book book);
     }
 }

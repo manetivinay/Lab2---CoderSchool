@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/entireItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -9,7 +11,7 @@
         android:id="@+id/ivCover"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"/>
 
     <TextView
         android:id="@+id/tvTitle"
@@ -18,7 +20,7 @@
         android:layout_margin="8dp"
         android:layout_toRightOf="@+id/ivCover"
         android:text="Title"
-        android:textSize="24sp" />
+        android:textSize="24sp"/>
 
     <TextView
         android:id="@+id/tvAuthor"
@@ -28,5 +30,5 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/ivCover"
         android:text="Author"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
 </RelativeLayout>
